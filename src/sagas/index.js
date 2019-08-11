@@ -1,9 +1,7 @@
-import { put, takeLatest, all, call } from 'redux-saga/effects';
+import { put, takeLatest, all, call, select } from 'redux-saga/effects';
 import { AppActions, postLogin, postLogout, setPlanets } from "../actions";
 import { baseAPIResource } from "../utils/apiHelper";
-import { createBrowserHistory } from 'history';
 
-const newHistory = createBrowserHistory();
 
 // function* fetchNews() {
 
@@ -33,7 +31,6 @@ export function* doLoginAndGetData(action) {
 
       // yield put(newHistory.push("/planets"));
     }
-    debugger;
   } catch (e) {
     console.log("Login error: ", e);
   }
@@ -50,10 +47,24 @@ function* doLogout() {
 
 export function* searchPlanets(action) {
   try {
-    const { param } = action.payload;
-    const response = yield call(baseAPIResource.get, `planets/?search=${param}`);
-    const results = response.data.results;
-    yield put(setPlanets(results));
+    let searchCount = JSON.parse(sessionStorage.getItem("search-count")) || 0;
+    const isLoggedIn = JSON.parse(sessionStorage.getItem("isLoggedIn"));
+    const lastSearch =  JSON.parse(sessionStorage.getItem("last-search"));
+    let delta = ((Date.now() - lastSearch))/60000;
+
+    debugger;
+    if(!isLoggedIn && (searchCount % 15) == 0 && (delta < 1)) {
+      const { history } = action.payload;
+      alert("Only 15 search in a min allowed for guest user, please login or come back later.");
+      history.push("/login");
+    } else {
+      const { param } = action.payload;
+      const response = yield call(baseAPIResource.get, `planets/?search=${param}`);
+      const results = response.data.results;
+      yield put(setPlanets(results));
+      sessionStorage.setItem("search-count", ++searchCount);
+      sessionStorage.setItem("last-search", Date.now());
+    }
   } catch (e) {
     console.log("Planets search API error: ", e);
   }

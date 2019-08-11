@@ -13,7 +13,7 @@ const newHistory = createBrowserHistory();
 //   yield put({ type: "NEWS_RECEIVED", json: json.articles || [{ error: json.message }] });
 // }
 
-function* doLoginAndGetData(action) {
+export function* doLoginAndGetData(action) {
   try {
     const { username, password } = action.payload;
     const response = yield call(baseAPIResource.get, `people/?search=${username}`);
@@ -48,14 +48,14 @@ function* doLogout() {
   }
 }
 
-function* searchPlanets(action) {
+export function* searchPlanets(action) {
   try {
     const { param } = action.payload;
     const response = yield call(baseAPIResource.get, `planets/?search=${param}`);
     const results = response.data.results;
     yield put(setPlanets(results));
   } catch (e) {
-    console.log("Logout error: ", e);
+    console.log("Planets search API error: ", e);
   }
 }
 

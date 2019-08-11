@@ -50,6 +50,11 @@ class Planets extends Component {
         dispatch(onLogout());
     };
 
+    login = () => {
+        const { history } = this.props;
+        history.push("/login");
+    };
+
     itemClicked(planet) {
         this.setState({
             showInfo: true,
@@ -71,7 +76,7 @@ class Planets extends Component {
                 {showInfo ? <ModalInfo planet={planet} hideInfo={this.hideInfo.bind(this)} /> : ''}
                 <div className="row">
                     <div className="col-md-12 userinfo">
-                        Welcome: {name} {(loginSuccess || JSON.parse(sessionStorage.getItem("isLoggedIn"))) ? <i className="fa fa-sign-out" aria-hidden="true" onClick={this.logout}> Logout </i> : ""}
+                        Welcome: {name} {(loginSuccess || JSON.parse(sessionStorage.getItem("isLoggedIn"))) ? <i className="fa fa-sign-out" aria-hidden="true" onClick={this.logout}> Logout </i> : <i className="fa fa-sign-out" aria-hidden="true" onClick={this.login}> Login </i> }
                     </div>
                 </div>
                 <div className="row">

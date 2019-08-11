@@ -27,6 +27,19 @@ body{
     border-color: green;
     color: #000;
 }
+
+.guest-btn{width:100%;
+    border-radius: 0;
+    background: blue;
+    border-color: blue;
+    color: #fff;
+}
+
+.guest-btn:hover{
+    background: #fff;
+    border-color: blue;
+    color: #000;
+}
 .center{
     margin: 10px auto;
     position: fixed;

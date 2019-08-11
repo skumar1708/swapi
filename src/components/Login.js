@@ -24,6 +24,11 @@ class Login extends Component {
         console.log("username", username);
     };
 
+    guestGo = () => {
+        const { history } = this.props;
+        history.push("/planets");
+    };
+
     render() {
         return (
             <div className="row">
@@ -36,7 +41,8 @@ class Login extends Component {
                             <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="pwd" required />
                         </div>
                         <button type="submit" className="btn btn-default login-btn" >Login</button>
-                    </form>
+                    </form><br/>
+                    <button type="button" className="btn btn-default guest-btn" onClick={this.guestGo}>Continue As Guest</button>
                 </div>
             </div>
         );
